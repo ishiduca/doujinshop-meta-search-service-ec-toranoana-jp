@@ -64,8 +64,7 @@ ServiceEcToranoanaJp.prototype.scraper = function scraper () {
   var count = 0
   var { serviceHome } = this.config.url
   var selector = (
-    '#search-result-container.pull-right' +
-      ' div ul.list li.list__item div.search-result-inside-container'
+    '#search-result-container.search-main-contents.pull-right>div.search-result-container>ul.product-list-container>li.product-list-item>div.product-list-item-inn'
   )
 
   sink.selectAll(selector, div => {
@@ -80,7 +79,11 @@ ServiceEcToranoanaJp.prototype.scraper = function scraper () {
       ;(count -= 1) || source.end()
     })
 
-    tr.selectAll('.product_desc section ul[class^="product_"] li a', a => {
+    var selectors = [
+      '.product-list-desc div.product-list-name a',
+      '.product-list-desc ul.product-list-labels li a'
+    ].join(',')
+    tr.selectAll(selectors, a => {
       var lnk = {}
       pipe(
         a.createReadStream(),
@@ -97,11 +100,11 @@ ServiceEcToranoanaJp.prototype.scraper = function scraper () {
       )
     })
 
-    tr.select('.product_img a img', img => {
+    tr.select('.product-list-img>a>img', img => {
       img.getAttribute('data-src', src => (_.thumbnail = { src }))
     })
 
-    tr.select('.product_desc section h3.product_title a', a => {
+    tr.select('.product-list-desc h3.product-list-title a', a => {
       pipe(
         a.createReadStream(),
         concat(buf => {

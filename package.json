@@ -1,6 +1,6 @@
 {
   "name": "doujinshop-meta-search-service-ec-toranoana-jp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "service.js",
   "scripts": {
